@@ -10,7 +10,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Open GL
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.opengles.version=196609
+    debug.hwui.use_buffer_age=false \
+    ro.opengles.version=196609 \
+    debug.sf.disable_hwc=1
 
 # Randomly from stock
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -18,7 +20,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.hsxpa=1 \
     ro.sec.fle.encryption=true \
     ro.secwvk=220
-
-# sdcardfs
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sys.sdcardfs=true
+    

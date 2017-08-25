@@ -23,19 +23,34 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/exynos5420-common/overlay
 # System properties
 -include $(COMMON_PATH)/system_prop.mk
 
+# Oreo packages
+PRODUCT_PACKAGES += \
+    android.hardware.usb@1.0-service \
+    android.hardware.wifi@1.0-service
+
+# Graphics
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.allocator@2.0-service \
+    android.hardware.graphics.mapper@2.0-impl \
+    android.hardware.graphics.composer@2.1-impl
+
+# Vibrator
+PRODUCT_PACKAGES += \
+    android.hardware.vibrator@1.0-impl 
+
 # Audio
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
     audio.usb.default \
     audio.r_submix.default \
-    tinymix
+    tinymix \
+    android.hardware.audio@2.0-impl \
+    android.hardware.audio.effect@2.0-impl \
 
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
     $(COMMON_PATH)/configs/audio/audio_policy.conf:system/etc/audio_policy.conf
-
-# Boot animation
-TARGET_BOOTANIMATION_HALF_RES := true
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -46,12 +61,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     gps.universal5420
 
-# Stlport
-PRODUCT_PACKAGES += \
-    libstlport
+# HIDL
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/manifest.xml:system/vendor/manifest.xml
 
 # HW composer
 PRODUCT_PACKAGES += \
+    libgutils \
     libion \
     gralloc.exynos5
 
@@ -67,7 +83,8 @@ PRODUCT_COPY_FILES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    lights.universal5420
+    lights.universal5420 \
+    android.hardware.light@2.0-impl
 
 # Media profile
 PRODUCT_COPY_FILES += \
@@ -75,7 +92,6 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
     $(COMMON_PATH)/configs/media/media_codecs.xml:system/etc/media_codecs.xml \
-    $(COMMON_PATH)/configs/media/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml \
     $(COMMON_PATH)/configs/media/media_codecs_performance.xml:system/etc/media_codecs_performance.xml \
     $(COMMON_PATH)/configs/media/media_profiles.xml:system/etc/media_profiles.xml
 
@@ -127,7 +143,8 @@ PRODUCT_PACKAGES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    power.universal5420
+    power.universal5420 \
+    android.hardware.power@1.0-impl
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -143,11 +160,13 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    sensors.universal5420
+    sensors.universal5420 \
+    android.hardware.sensors@1.0-impl
 
 # WiFi HAL
 PRODUCT_PACKAGES += \
-    android.hardware.wifi@1.0-service
+    android.hardware.wifi@1.0-service \
+    wificonf
 
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
@@ -197,7 +216,4 @@ PRODUCT_PACKAGES += \
 # call Samsung LSI board support package
 $(call inherit-product, hardware/samsung_slsi-cm/exynos5/exynos5.mk)
 $(call inherit-product, hardware/samsung_slsi-cm/exynos5420/exynos5420.mk)
-
-# Bootanimation
-$(call inherit-product-if-exists, vendor/google/google-vendor.mk)
 

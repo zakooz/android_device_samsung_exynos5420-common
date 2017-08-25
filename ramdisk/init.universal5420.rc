@@ -102,6 +102,8 @@ on property:sys.boot_completed=1
 
 on post-fs-data
     setprop vold.post_fs_data_done 1
+    rm /data/logcat.txt
+    rm /data/dmesg.txt
 
 # Permissions for bluetooth
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
@@ -126,6 +128,17 @@ on post-fs-data
 #    mkdir /data/privatemode 0770 system system
 #    chown system system /data/privatemode
 #    restorecon /data/privatemode
+
+on early-boot
+service logcat_debug /system/bin/logcat -b all -f /data/logcat.txt -v threadtime
+    class main
+    user root
+    group system
+
+service dmesg_debug /system/bin/dmesg > /data/dmesg.txt
+    class main
+    user root
+    group system
 
 on boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug
